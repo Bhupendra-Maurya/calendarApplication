@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import Header from './components/Header';
 import Calendar from './components/Calendar';
 import JournalModal from './components/JournalModal';
@@ -21,7 +22,12 @@ const App: React.FC = () => {
   } = useCalendar();
 
   return (
-    <div className="app">
+    <motion.div 
+      className="app"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
       <Header currentMonth={currentMonth} />
       
       <div ref={containerRef} className="calendar-container">
@@ -41,7 +47,7 @@ const App: React.FC = () => {
         canGoToPrevious={canGoToPrevious}
         canGoToNext={canGoToNext}
       />
-    </div>
+    </motion.div>
   );
 };
 
