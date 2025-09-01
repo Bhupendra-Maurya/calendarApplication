@@ -1,6 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { type JournalEntry, getJournalEntriesForDate, isSameDay } from '../utils/dateHelpers';
+import {type JournalEntry, getJournalEntriesForDate, isSameDay } from '../utils/dateHelpers';
 
 interface DayCellProps {
   day: number;
@@ -9,7 +8,6 @@ interface DayCellProps {
   isPrevMonth: boolean;
   journalEntries: JournalEntry[];
   onEntryClick: (entry: JournalEntry) => void;
-  index: number;
 }
 
 const DayCell: React.FC<DayCellProps> = ({
@@ -17,8 +15,7 @@ const DayCell: React.FC<DayCellProps> = ({
   date,
   isCurrentMonth,
   journalEntries,
-  onEntryClick,
-  index
+  onEntryClick
 }) => {
   const isToday = isSameDay(date, new Date());
   const dayEntries = getJournalEntriesForDate(journalEntries, date);
@@ -42,52 +39,18 @@ const DayCell: React.FC<DayCellProps> = ({
       stars.push('☆');
     }
 
-    return stars.slice(0, 5);
+    return stars.slice(0, 5); // Max 5 stars
   };
 
   return (
-    <motion.div 
-      className={cellClassName}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ 
-        duration: 0.3, 
-        delay: index * 0.02,
-        ease: "easeOut" 
-      }}
-      whileHover={{ 
-        scale: 1.02,
-        transition: { duration: 0.2 }
-      }}
-    >
-      <motion.div 
-        className="day-number"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: index * 0.02 + 0.1 }}
-      >
-        {day}
-      </motion.div>
-      {dayEntries.map((entry, entryIndex) => (
-        <motion.div
-          key={entryIndex}
+    <div className={cellClassName}>
+      <div className="day-number">{day}</div>
+      {dayEntries.map((entry, index) => (
+        <div
+          key={index}
           className="journal-entry"
           onClick={() => onEntryClick(entry)}
           title={entry.description.substring(0, 100) + '...'}
-          initial={{ opacity: 0, y: 20, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ 
-            duration: 0.4, 
-            delay: index * 0.02 + 0.2 + entryIndex * 0.1,
-            ease: "easeOut"
-          }}
-          whileHover={{ 
-            scale: 1.05,
-            y: -2,
-            boxShadow: "0 8px 25px rgba(102, 126, 234, 0.4)",
-            transition: { duration: 0.2 }
-          }}
-          whileTap={{ scale: 0.95 }}
         >
           <div>{entry.categories[0] || 'Journal'}</div>
           <div className="journal-entry-rating">
@@ -98,9 +61,9 @@ const DayCell: React.FC<DayCellProps> = ({
               {entry.rating}
             </span>
           </div>
-        </motion.div>
+        </div>
       ))}
-    </motion.div>
+    </div>
   );
 };
 

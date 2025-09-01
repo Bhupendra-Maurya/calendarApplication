@@ -1,11 +1,9 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import Header from './components/Header';
 import Calendar from './components/Calendar';
 import JournalModal from './components/JournalModal';
 import { useInfiniteScroll } from './hooks/useInfiniteScroll';
 import { useCalendar } from './hooks/useCalendar';
-import './styles/calendar.css';
 
 const App: React.FC = () => {
   const { containerRef, months, currentMonth } = useInfiniteScroll();
@@ -22,12 +20,7 @@ const App: React.FC = () => {
   } = useCalendar();
 
   return (
-    <motion.div 
-      className="app"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
+    <div className="app">
       <Header currentMonth={currentMonth} />
       
       <div ref={containerRef} className="calendar-container">
@@ -47,7 +40,7 @@ const App: React.FC = () => {
         canGoToPrevious={canGoToPrevious}
         canGoToNext={canGoToNext}
       />
-    </motion.div>
+    </div>
   );
 };
 

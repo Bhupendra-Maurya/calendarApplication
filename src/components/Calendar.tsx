@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { getMonthData, getMonthName, type JournalEntry } from '../utils/dateHelpers';
 import type { MonthInfo } from '../hooks/useInfiniteScroll';
 import DayCell from './DayCell';
@@ -17,73 +16,41 @@ const Calendar: React.FC<CalendarProps> = ({
 }) => {
   const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  const renderMonth = (monthInfo: MonthInfo, index: number) => {
+  const renderMonth = (monthInfo: MonthInfo) => {
     const monthData = getMonthData(monthInfo.year, monthInfo.month);
     
     return (
-      <motion.div 
+      <div 
         key={monthInfo.id} 
         className="month-grid"
         data-month-id={monthInfo.id}
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ 
-          duration: 0.6, 
-          delay: index * 0.1,
-          ease: "easeOut" 
-        }}
       >
-        <motion.h2 
-          className="month-title"
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-        >
+        <h2 className="month-title">
           {getMonthName(monthInfo.month)} {monthInfo.year}
-        </motion.h2>
+        </h2>
         
-        <motion.div 
-          className="days-header"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: index * 0.1 + 0.3 }}
-        >
-          {dayHeaders.map((day, dayIndex) => (
-            <motion.div 
-              key={day} 
-              className="day-header"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.3, 
-                delay: index * 0.1 + 0.4 + dayIndex * 0.05 
-              }}
-            >
+        <div className="days-header">
+          {dayHeaders.map(day => (
+            <div key={day} className="day-header">
               {day}
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
         
-        <motion.div 
-          className="days-grid"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: index * 0.1 + 0.5 }}
-        >
-          {monthData.map((dayInfo, dayIndex) => (
+        <div className="days-grid">
+          {monthData.map((dayInfo, index) => (
             <DayCell
-              key={`${monthInfo.id}-${dayIndex}`}
+              key={`${monthInfo.id}-${index}`}
               day={dayInfo.day}
               date={dayInfo.date}
               isCurrentMonth={dayInfo.isCurrentMonth}
               isPrevMonth={dayInfo.isPrevMonth}
               journalEntries={journalEntries}
               onEntryClick={onEntryClick}
-              index={dayIndex}
             />
           ))}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     );
   };
 

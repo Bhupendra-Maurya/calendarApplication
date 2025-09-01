@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 export interface MonthInfo {
   year: number;
@@ -19,62 +19,59 @@ export const useInfiniteScroll = () => {
     const now = new Date();
     const currentYear = now.getFullYear();
     const currentMonthIndex = now.getMonth();
-
+    
     const initialMonths: MonthInfo[] = [];
-
+    
     // Generate 12 months before, current month, and 12 months after
     for (let i = -12; i <= 12; i++) {
       const date = new Date(currentYear, currentMonthIndex + i, 1);
       initialMonths.push({
         year: date.getFullYear(),
         month: date.getMonth(),
-        id: `${date.getFullYear()}-${date.getMonth()}`,
+        id: `${date.getFullYear()}-${date.getMonth()}`
       });
     }
-
+    
     setMonths(initialMonths);
     setCurrentMonth({
       year: currentYear,
       month: currentMonthIndex,
-      id: `${currentYear}-${currentMonthIndex}`,
+      id: `${currentYear}-${currentMonthIndex}`
     });
   }, []);
 
   // Add more months when scrolling near the edges
-  const addMonths = useCallback(
-    (direction: "before" | "after", count: number = 6) => {
-      setMonths((prevMonths) => {
-        if (prevMonths.length === 0) return prevMonths;
-
-        const newMonths = [...prevMonths];
-
-        if (direction === "before") {
-          const firstMonth = prevMonths[0];
-          for (let i = 1; i <= count; i++) {
-            const date = new Date(firstMonth.year, firstMonth.month - i, 1);
-            newMonths.unshift({
-              year: date.getFullYear(),
-              month: date.getMonth(),
-              id: `${date.getFullYear()}-${date.getMonth()}`,
-            });
-          }
-        } else {
-          const lastMonth = prevMonths[prevMonths.length - 1];
-          for (let i = 1; i <= count; i++) {
-            const date = new Date(lastMonth.year, lastMonth.month + i, 1);
-            newMonths.push({
-              year: date.getFullYear(),
-              month: date.getMonth(),
-              id: `${date.getFullYear()}-${date.getMonth()}`,
-            });
-          }
+  const addMonths = useCallback((direction: 'before' | 'after', count: number = 6) => {
+    setMonths(prevMonths => {
+      if (prevMonths.length === 0) return prevMonths;
+      
+      const newMonths = [...prevMonths];
+      
+      if (direction === 'before') {
+        const firstMonth = prevMonths[0];
+        for (let i = 1; i <= count; i++) {
+          const date = new Date(firstMonth.year, firstMonth.month - i, 1);
+          newMonths.unshift({
+            year: date.getFullYear(),
+            month: date.getMonth(),
+            id: `${date.getFullYear()}-${date.getMonth()}`
+          });
         }
-
-        return newMonths;
-      });
-    },
-    []
-  );
+      } else {
+        const lastMonth = prevMonths[prevMonths.length - 1];
+        for (let i = 1; i <= count; i++) {
+          const date = new Date(lastMonth.year, lastMonth.month + i, 1);
+          newMonths.push({
+            year: date.getFullYear(),
+            month: date.getMonth(),
+            id: `${date.getFullYear()}-${date.getMonth()}`
+          });
+        }
+      }
+      
+      return newMonths;
+    });
+  }, []);
 
   // Handle scroll events and update current month
   const handleScroll = useCallback(() => {
@@ -83,7 +80,7 @@ export const useInfiniteScroll = () => {
     const container = containerRef.current;
     const scrollTop = container.scrollTop;
     const now = Date.now();
-
+    
     // Throttle scroll handling
     if (now - lastScrollTime.current < 16) return; // ~60fps
     lastScrollTime.current = now;
@@ -91,32 +88,32 @@ export const useInfiniteScroll = () => {
     scrollPositionRef.current = scrollTop;
 
     // Find the most visible month
-    const monthElements = container.querySelectorAll("[data-month-id]");
+    const monthElements = container.querySelectorAll('[data-month-id]');
     let maxVisibleArea = 0;
     let mostVisibleMonth: MonthInfo | null = null;
 
     monthElements.forEach((element) => {
       const rect = element.getBoundingClientRect();
       const containerRect = container.getBoundingClientRect();
-
+      
       // Calculate visible area
       const visibleTop = Math.max(rect.top, containerRect.top);
       const visibleBottom = Math.min(rect.bottom, containerRect.bottom);
       const visibleHeight = Math.max(0, visibleBottom - visibleTop);
       const visibleArea = visibleHeight * rect.width;
-
+      
       if (visibleArea > maxVisibleArea) {
         maxVisibleArea = visibleArea;
-        const monthId = element.getAttribute("data-month-id");
+        const monthId = element.getAttribute('data-month-id');
         if (monthId) {
-          const [year, month] = monthId.split("-").map(Number);
+          const [year, month] = monthId.split('-').map(Number);
           mostVisibleMonth = { year, month, id: monthId };
         }
       }
     });
 
     if (mostVisibleMonth) {
-      setCurrentMonth((prev) => {
+      setCurrentMonth(prev => {
         if (!prev || prev.id !== mostVisibleMonth?.id) {
           return mostVisibleMonth;
         }
@@ -127,21 +124,21 @@ export const useInfiniteScroll = () => {
     // Load more months when near edges
     const containerHeight = container.clientHeight;
     const scrollHeight = container.scrollHeight;
-
+    
     // Load more months at the top
     if (scrollTop < containerHeight * 2 && !isLoading) {
       setIsLoading(true);
       setTimeout(() => {
-        addMonths("before");
+        addMonths('before');
         setIsLoading(false);
       }, 100);
     }
-
+    
     // Load more months at the bottom
     if (scrollTop > scrollHeight - containerHeight * 3 && !isLoading) {
       setIsLoading(true);
       setTimeout(() => {
-        addMonths("after");
+        addMonths('after');
         setIsLoading(false);
       }, 100);
     }
@@ -152,10 +149,10 @@ export const useInfiniteScroll = () => {
     const container = containerRef.current;
     if (!container) return;
 
-    container.addEventListener("scroll", handleScroll, { passive: true });
-
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    
     return () => {
-      container.removeEventListener("scroll", handleScroll);
+      container.removeEventListener('scroll', handleScroll);
     };
   }, [handleScroll]);
 
@@ -163,6 +160,6 @@ export const useInfiniteScroll = () => {
     containerRef,
     months,
     currentMonth,
-    isLoading,
+    isLoading
   };
 };
