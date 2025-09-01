@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import Header from './components/Header';
+import Calendar from './components/Calendar';
+import JournalModal from './components/JournalModal';
+import { useInfiniteScroll } from './hooks/useInfiniteScroll';
+import { useCalendar } from './hooks/useCalendar';
+import './styles/calendar.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const { containerRef, months, currentMonth } = useInfiniteScroll();
+  const {
+    journalEntries,
+    selectedEntry,
+    isModalOpen,
+    openJournalEntry,
+    closeJournalEntry,
+    goToPreviousEntry,
+    goToNextEntry,
+    canGoToPrevious,
+    canGoToNext
+  } = useCalendar();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <Header currentMonth={currentMonth} />
+      
+      <div ref={containerRef} className="calendar-container">
+        <Calendar
+          months={months}
+          journalEntries={journalEntries}
+          onEntryClick={openJournalEntry}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
 
-export default App
+      <JournalModal
+        entry={selectedEntry}
+        isOpen={isModalOpen}
+        onClose={closeJournalEntry}
+        onPrevious={goToPreviousEntry}
+        onNext={goToNextEntry}
+        canGoToPrevious={canGoToPrevious}
+        canGoToNext={canGoToNext}
+      />
+    </div>
+  );
+};
+
+export default App;
