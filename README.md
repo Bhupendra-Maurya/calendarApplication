@@ -1,69 +1,67 @@
-# React + TypeScript + Vite
+# Calendar Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, infinite-scrolling calendar application built with React and TypeScript, featuring journal entries and smooth navigation.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Infinite Scrolling Calendar** - Seamlessly browse through months with automatic loading
+- **Journal Entries** - View and interact with journal entries directly on calendar dates
+- **Today Highlighting** - Current date highlighted in green (only in current month)
+- **Modal Navigation** - Full-screen journal entry viewer with swipe/keyboard navigation
+- **Touch Gestures** - Swipe left/right to navigate between journal entries on mobile
+- **Responsive Design** - Optimized for both desktop and mobile devices
+- **Smooth Scrolling** - Auto-scroll to current month on app load
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 18** - Modern React with hooks
+- **TypeScript** - Type-safe development
+- **Vite** - Fast build tool and dev server
+- **CSS3** - Custom styling with responsive design
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/Bhupendra-Maurya/calendarApplication
+cd calendarApplication
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. Install dependencies
+```bash
+npm install
 ```
+
+3. Start the development server
+```bash
+npm run dev
+```
+
+4. Open your browser and navigate to `http://localhost:5173`
+
+## Usage
+
+### Navigation
+- **Scroll** - Use mouse wheel or touch to scroll through months
+- **Auto-scroll** - App automatically displays current month on load
+- **Infinite Loading** - More months load automatically as you scroll
+
+### Journal Entries
+- **Click** any journal entry to open detailed view
+- **Navigate** between entries using arrow buttons or keyboard
+- **Swipe** left/right on mobile to navigate entries
+- **Close** modal by clicking outside or pressing Escape
+
+### Keyboard Shortcuts
+- `←` / `→` - Navigate between journal entries in modal
+- `Escape` - Close journal modal
+
+
+
