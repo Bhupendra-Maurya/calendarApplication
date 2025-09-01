@@ -38,6 +38,16 @@ export const useInfiniteScroll = () => {
       month: currentMonthIndex,
       id: `${currentYear}-${currentMonthIndex}`
     });
+
+    // Scroll to current month after render
+    setTimeout(() => {
+      if (containerRef.current) {
+        const currentMonthElement = containerRef.current.querySelector(`[data-month-id="${currentYear}-${currentMonthIndex}"]`);
+        if (currentMonthElement) {
+          currentMonthElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }, 100);
   }, []);
 
   // Add more months when scrolling near the edges
