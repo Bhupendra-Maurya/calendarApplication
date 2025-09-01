@@ -27,7 +27,7 @@ const DayCell: React.FC<DayCellProps> = ({
   const cellClassName = [
     "day-cell",
     !isCurrentMonth && "other-month",
-    isToday && "today",
+    isToday && isCurrentMonth && "today",
   ]
     .filter(Boolean)
     .join(" ");
