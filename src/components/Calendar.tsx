@@ -1,0 +1,64 @@
+import React from 'react';
+import { getMonthData, getMonthName, type JournalEntry } from '../utils/dateHelpers';
+import type { MonthInfo } from '../hooks/useInfiniteScroll';
+import DayCell from './DayCell';
+
+interface CalendarProps {
+  months: MonthInfo[];
+  journalEntries: JournalEntry[];
+  onEntryClick: (entry: JournalEntry) => void;
+}
+
+const Calendar: React.FC<CalendarProps> = ({
+  months,
+  journalEntries,
+  onEntryClick
+}) => {
+  const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  const renderMonth = (monthInfo: MonthInfo) => {
+    const monthData = getMonthData(monthInfo.year, monthInfo.month);
+    
+    return (
+      <div 
+        key={monthInfo.id} 
+        className="month-grid"
+        data-month-id={monthInfo.id}
+      >
+        <h2 className="month-title">
+          {getMonthName(monthInfo.month)} {monthInfo.year}
+        </h2>
+        
+        <div className="days-header">
+          {dayHeaders.map(day => (
+            <div key={day} className="day-header">
+              {day}
+            </div>
+          ))}
+        </div>
+        
+        <div className="days-grid">
+          {monthData.map((dayInfo, index) => (
+            <DayCell
+              key={`${monthInfo.id}-${index}`}
+              day={dayInfo.day}
+              date={dayInfo.date}
+              isCurrentMonth={dayInfo.isCurrentMonth}
+              isPrevMonth={dayInfo.isPrevMonth}
+              journalEntries={journalEntries}
+              onEntryClick={onEntryClick}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="calendar-months">
+      {months.map(renderMonth)}
+    </div>
+  );
+};
+
+export default Calendar;
