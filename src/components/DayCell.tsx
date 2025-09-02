@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   type JournalEntry,
-  getJournalEntriesForDate,
   isSameDay,
 } from "../utils/dateHelpers";
 
@@ -21,8 +20,8 @@ const DayCell: React.FC<DayCellProps> = ({
   journalEntries,
   onEntryClick,
 }) => {
-  const isToday = isSameDay(date, new Date());
-  const dayEntries = getJournalEntriesForDate(journalEntries, date);
+  const today = useMemo(() => new Date(), []);
+  const isToday = useMemo(() => isSameDay(date, today), [date, today]);
 
   const cellClassName = [
     "day-cell",
@@ -32,7 +31,7 @@ const DayCell: React.FC<DayCellProps> = ({
     .filter(Boolean)
     .join(" ");
 
-  const renderStars = (rating: number) => {
+  const renderStars = useMemo(() => (rating: number) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
     const stars = [];
@@ -46,13 +45,13 @@ const DayCell: React.FC<DayCellProps> = ({
     }
 
     return stars.slice(0, 5);
-  };
+  }, []);
 
   return (
     <div className={cellClassName}>
       <div className="day-number">{day}</div>
-      {isCurrentMonth && dayEntries.map((entry, index) => (
-        <div key={index} className="journal-entry" onClick={() => onEntryClick(entry)}>
+      {isCurrentMonth && journalEntries.map((entry, index) => (
+        <div key={entry.id || `${entry.date}-${index}`} className="journal-entry" onClick={() => onEntryClick(entry)}>
           <div className="stars">
             {renderStars(entry.rating).map((star, i) => (
               <span key={i} className="star">
@@ -65,6 +64,10 @@ const DayCell: React.FC<DayCellProps> = ({
               src={entry.imgUrl} 
               alt="Journal entry" 
               className="entry-image"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
             />
           )}
         </div>

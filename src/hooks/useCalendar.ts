@@ -27,9 +27,10 @@ export const useCalendar = () => {
     if (!searchQuery.trim()) {
       setFilteredEntries(journalEntries);
     } else {
+      const lowerQuery = searchQuery.toLowerCase();
       const filtered = journalEntries.filter(entry => 
-        entry.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        entry.categories.some(cat => cat.toLowerCase().includes(searchQuery.toLowerCase()))
+        entry.description.toLowerCase().includes(lowerQuery) ||
+        entry.categories.some(cat => cat.toLowerCase().includes(lowerQuery))
       );
       setFilteredEntries(filtered);
     }
@@ -41,7 +42,7 @@ export const useCalendar = () => {
       e.date === entry.date && e.description === entry.description
     );
     setSelectedEntry(entry);
-    setCurrentEntryIndex(index);
+    setCurrentEntryIndex(index >= 0 ? index : 0);
     setIsModalOpen(true);
   }, [filteredEntries]);
 

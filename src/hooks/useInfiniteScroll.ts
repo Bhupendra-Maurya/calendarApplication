@@ -1,5 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
+const SCROLL_THROTTLE_MS = 16;
+const MONTH_INDICATOR_TIMEOUT_MS = 2000;
+const LOADING_DELAY_MS = 50;
+const SCROLL_BUFFER_MULTIPLIER = 2;
+const SCROLL_TRIGGER_MULTIPLIER = 3;
+
 export interface MonthInfo {
   year: number;
   month: number;
@@ -15,6 +21,9 @@ export const useInfiniteScroll = () => {
   const scrollPositionRef = useRef<number>(0);
   const lastScrollTime = useRef<number>(0);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const loadingRef = useRef<boolean>(false);
+  const intersectionObserverRef = useRef<IntersectionObserver | null>(null);
+  const monthElementsRef = useRef<Map<string, Element>>(new Map());
 
 
   useEffect(() => {
@@ -24,8 +33,7 @@ export const useInfiniteScroll = () => {
     
     const initialMonths: MonthInfo[] = [];
     
-
-    for (let i = -12; i <= 12; i++) {
+    for (let i = -6; i <= 6; i++) {
       const date = new Date(currentYear, currentMonthIndex + i, 1);
       initialMonths.push({
         year: date.getFullYear(),
@@ -41,19 +49,27 @@ export const useInfiniteScroll = () => {
       id: `${currentYear}-${currentMonthIndex}`
     });
 
-
-    setTimeout(() => {
+    // Scroll to current month after DOM is ready
+    const scrollToCurrentMonth = () => {
       if (containerRef.current) {
         const currentMonthElement = containerRef.current.querySelector(`[data-month-id="${currentYear}-${currentMonthIndex}"]`);
         if (currentMonthElement) {
-          currentMonthElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          currentMonthElement.scrollIntoView({ behavior: 'instant', block: 'start' });
+        } else {
+          // Retry if element not found
+          requestAnimationFrame(scrollToCurrentMonth);
         }
       }
-    }, 100);
+    };
+    
+    requestAnimationFrame(scrollToCurrentMonth);
   }, []);
 
 
   const addMonths = useCallback((direction: 'before' | 'after', count: number = 6) => {
+    if (loadingRef.current) return;
+    loadingRef.current = true;
+    
     setMonths(prevMonths => {
       if (prevMonths.length === 0) return prevMonths;
       
@@ -83,6 +99,10 @@ export const useInfiniteScroll = () => {
       
       return newMonths;
     });
+    
+    setTimeout(() => {
+      loadingRef.current = false;
+    }, LOADING_DELAY_MS);
   }, []);
 
 
@@ -93,80 +113,85 @@ export const useInfiniteScroll = () => {
     const scrollTop = container.scrollTop;
     const now = Date.now();
     
-
-    if (now - lastScrollTime.current < 16) return;
+    if (now - lastScrollTime.current < SCROLL_THROTTLE_MS) return;
     lastScrollTime.current = now;
 
     scrollPositionRef.current = scrollTop;
 
-
-    const monthElements = container.querySelectorAll('[data-month-id]');
-    let maxVisibleArea = 0;
-    let mostVisibleMonth: MonthInfo | null = null;
-
-    monthElements.forEach((element) => {
-      const rect = element.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
-      
-
-      const visibleTop = Math.max(rect.top, containerRect.top);
-      const visibleBottom = Math.min(rect.bottom, containerRect.bottom);
-      const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-      const visibleArea = visibleHeight * rect.width;
-      
-      if (visibleArea > maxVisibleArea) {
-        maxVisibleArea = visibleArea;
-        const monthId = element.getAttribute('data-month-id');
-        if (monthId) {
-          const [year, month] = monthId.split('-').map(Number);
-          mostVisibleMonth = { year, month, id: monthId };
-        }
-      }
-    });
-
-    if (mostVisibleMonth) {
-      setCurrentMonth(prev => {
-        if (!prev || prev.id !== mostVisibleMonth?.id) {
-          setShowMonthIndicator(true);
-          
-
-          if (scrollTimeoutRef.current) {
-            clearTimeout(scrollTimeoutRef.current);
-          }
-          
-
-          scrollTimeoutRef.current = setTimeout(() => {
-            setShowMonthIndicator(false);
-          }, 2000);
-          
-          return mostVisibleMonth;
-        }
-        return prev;
-      });
-    }
-
-
     const containerHeight = container.clientHeight;
     const scrollHeight = container.scrollHeight;
     
-
-    if (scrollTop < containerHeight * 2 && !isLoading) {
-      setIsLoading(true);
-      setTimeout(() => {
-        addMonths('before');
-        setIsLoading(false);
-      }, 100);
+    // Load more months if needed
+    if (scrollTop < containerHeight * SCROLL_BUFFER_MULTIPLIER && !loadingRef.current) {
+      addMonths('before');
     }
     
-
-    if (scrollTop > scrollHeight - containerHeight * 3 && !isLoading) {
-      setIsLoading(true);
-      setTimeout(() => {
-        addMonths('after');
-        setIsLoading(false);
-      }, 100);
+    if (scrollTop > scrollHeight - containerHeight * SCROLL_TRIGGER_MULTIPLIER && !loadingRef.current) {
+      addMonths('after');
     }
-  }, [addMonths, isLoading]);
+  }, [addMonths]);
+
+  // Setup intersection observer for month visibility
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let maxVisibleRatio = 0;
+        let mostVisibleMonth: MonthInfo | null = null;
+
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > maxVisibleRatio) {
+            maxVisibleRatio = entry.intersectionRatio;
+            const monthId = entry.target.getAttribute('data-month-id');
+            if (monthId) {
+              const [year, month] = monthId.split('-').map(Number);
+              mostVisibleMonth = { year, month, id: monthId };
+            }
+          }
+        });
+
+        if (mostVisibleMonth) {
+          setCurrentMonth(prev => {
+            if (!prev || prev.id !== mostVisibleMonth?.id) {
+              setShowMonthIndicator(true);
+              
+              if (scrollTimeoutRef.current) {
+                clearTimeout(scrollTimeoutRef.current);
+              }
+              
+              scrollTimeoutRef.current = setTimeout(() => {
+                setShowMonthIndicator(false);
+              }, MONTH_INDICATOR_TIMEOUT_MS);
+              
+              return mostVisibleMonth;
+            }
+            return prev;
+          });
+        }
+      },
+      {
+        root: containerRef.current,
+        threshold: [0.1, 0.5, 0.9]
+      }
+    );
+
+    intersectionObserverRef.current = observer;
+
+    // Observe existing month elements
+    const monthElements = containerRef.current.querySelectorAll('[data-month-id]');
+    monthElements.forEach(element => {
+      observer.observe(element);
+      const monthId = element.getAttribute('data-month-id');
+      if (monthId) {
+        monthElementsRef.current.set(monthId, element);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [months]);
 
 
   useEffect(() => {
@@ -177,6 +202,9 @@ export const useInfiniteScroll = () => {
     
     return () => {
       container.removeEventListener('scroll', handleScroll);
+      if (intersectionObserverRef.current) {
+        intersectionObserverRef.current.disconnect();
+      }
     };
   }, [handleScroll]);
 

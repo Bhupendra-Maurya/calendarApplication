@@ -1,5 +1,5 @@
-import React from 'react';
-import { getMonthData, type JournalEntry } from '../utils/dateHelpers';
+import React, { useMemo } from 'react';
+import { getMonthData, getJournalEntriesForDate, type JournalEntry } from '../utils/dateHelpers';
 import type { MonthInfo } from '../hooks/useInfiniteScroll';
 import DayCell from './DayCell';
 
@@ -14,8 +14,7 @@ const Calendar: React.FC<CalendarProps> = ({
   journalEntries,
   onEntryClick
 }) => {
-
-  const renderMonth = (monthInfo: MonthInfo) => {
+  const renderMonth = useMemo(() => (monthInfo: MonthInfo) => {
     const monthData = getMonthData(monthInfo.year, monthInfo.month);
     
     return (
@@ -25,21 +24,24 @@ const Calendar: React.FC<CalendarProps> = ({
         data-month-id={monthInfo.id}
       >
         <div className="days-grid">
-          {monthData.map((dayInfo, index) => (
-            <DayCell
-              key={`${monthInfo.id}-${index}`}
-              day={dayInfo.day}
-              date={dayInfo.date}
-              isCurrentMonth={dayInfo.isCurrentMonth}
-              isPrevMonth={dayInfo.isPrevMonth}
-              journalEntries={journalEntries}
-              onEntryClick={onEntryClick}
-            />
-          ))}
+          {monthData.map((dayInfo, index) => {
+            const dayEntries = getJournalEntriesForDate(journalEntries, dayInfo.date);
+            return (
+              <DayCell
+                key={`${monthInfo.id}-${index}`}
+                day={dayInfo.day}
+                date={dayInfo.date}
+                isCurrentMonth={dayInfo.isCurrentMonth}
+                isPrevMonth={dayInfo.isPrevMonth}
+                journalEntries={dayEntries}
+                onEntryClick={onEntryClick}
+              />
+            );
+          })}
         </div>
       </div>
     );
-  };
+  }, [journalEntries, onEntryClick]);
 
   return (
     <div className="calendar-months">
