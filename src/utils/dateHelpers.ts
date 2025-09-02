@@ -67,15 +67,19 @@ export const getMonthData = (year: number, month: number) => {
     });
   }
   
-  // Next month's leading days to complete the grid
-  const remainingDays = 42 - days.length; // 6 rows × 7 days = 42
-  for (let day = 1; day <= remainingDays; day++) {
-    days.push({
-      day,
-      isCurrentMonth: false,
-      date: new Date(year, month + 1, day),
-      isPrevMonth: false
-    });
+  // Only add next month days if we need to complete the last week
+  const totalDays = days.length;
+  const remainingInWeek = totalDays % 7;
+  if (remainingInWeek !== 0) {
+    const daysToAdd = 7 - remainingInWeek;
+    for (let day = 1; day <= daysToAdd; day++) {
+      days.push({
+        day,
+        isCurrentMonth: false,
+        date: new Date(year, month + 1, day),
+        isPrevMonth: false
+      });
+    }
   }
   
   return days;
