@@ -7,12 +7,14 @@ interface CalendarProps {
   months: MonthInfo[];
   journalEntries: JournalEntry[];
   onEntryClick: (entry: JournalEntry) => void;
+  currentMonth: MonthInfo | null;
 }
 
 const Calendar: React.FC<CalendarProps> = ({
   months,
   journalEntries,
-  onEntryClick
+  onEntryClick,
+  currentMonth
 }) => {
   const renderMonth = useMemo(() => (monthInfo: MonthInfo) => {
     const monthData = getMonthData(monthInfo.year, monthInfo.month);
@@ -35,6 +37,7 @@ const Calendar: React.FC<CalendarProps> = ({
                 isPrevMonth={dayInfo.isPrevMonth}
                 journalEntries={dayEntries}
                 onEntryClick={onEntryClick}
+                isActualCurrentMonth={currentMonth ? monthInfo.year === currentMonth.year && monthInfo.month === currentMonth.month && dayInfo.isCurrentMonth : false}
               />
             );
           })}

@@ -11,6 +11,7 @@ interface DayCellProps {
   isPrevMonth: boolean;
   journalEntries: JournalEntry[];
   onEntryClick: (entry: JournalEntry) => void;
+  isActualCurrentMonth: boolean;
 }
 
 const DayCell: React.FC<DayCellProps> = ({
@@ -19,6 +20,7 @@ const DayCell: React.FC<DayCellProps> = ({
   isCurrentMonth,
   journalEntries,
   onEntryClick,
+  isActualCurrentMonth,
 }) => {
   const today = useMemo(() => new Date(), []);
   const isToday = useMemo(() => isSameDay(date, today), [date, today]);
@@ -27,6 +29,7 @@ const DayCell: React.FC<DayCellProps> = ({
     "day-cell",
     !isCurrentMonth && "other-month",
     isToday && "today",
+    isActualCurrentMonth && "current-month-highlight",
   ]
     .filter(Boolean)
     .join(" ");

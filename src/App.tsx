@@ -61,6 +61,7 @@ const App: React.FC = () => {
           months={months}
           journalEntries={searchQuery ? journalEntries : allEntries}
           onEntryClick={openJournalEntry}
+          currentMonth={currentMonth}
         />
       </div>
 

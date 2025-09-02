@@ -213,6 +213,17 @@ body {
   color: #ccc;
 }
 
+/* Highlight current month dates only */
+.day-cell.current-month-highlight {
+  background-color: #d7dee0;
+  border: 1px solid #e3e8ff;
+}
+
+.day-cell.current-month-highlight .day-number {
+  color: #1a202c;
+  font-weight: 600;
+}
+
 .day-number {
   font-size: 1rem;
   font-weight: bold;
