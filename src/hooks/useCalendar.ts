@@ -7,10 +7,10 @@ export const useCalendar = () => {
   const [currentEntryIndex, setCurrentEntryIndex] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Load journal entries on mount
+
   useEffect(() => {
     const entries = getAllJournalEntries();
-    // Sort entries by date
+
     entries.sort((a, b) => {
       const dateA = parseDate(a.date);
       const dateB = parseDate(b.date);
@@ -19,7 +19,7 @@ export const useCalendar = () => {
     setJournalEntries(entries);
   }, []);
 
-  // Open journal entry modal
+
   const openJournalEntry = useCallback((entry: JournalEntry) => {
     const index = journalEntries.findIndex(e => 
       e.date === entry.date && e.description === entry.description
@@ -29,13 +29,13 @@ export const useCalendar = () => {
     setIsModalOpen(true);
   }, [journalEntries]);
 
-  // Close journal entry modal
+
   const closeJournalEntry = useCallback(() => {
     setSelectedEntry(null);
     setIsModalOpen(false);
   }, []);
 
-  // Navigate to previous entry
+
   const goToPreviousEntry = useCallback(() => {
     if (currentEntryIndex > 0) {
       const newIndex = currentEntryIndex - 1;
@@ -44,7 +44,7 @@ export const useCalendar = () => {
     }
   }, [currentEntryIndex, journalEntries]);
 
-  // Navigate to next entry
+
   const goToNextEntry = useCallback(() => {
     if (currentEntryIndex < journalEntries.length - 1) {
       const newIndex = currentEntryIndex + 1;
@@ -53,7 +53,7 @@ export const useCalendar = () => {
     }
   }, [currentEntryIndex, journalEntries]);
 
-  // Handle keyboard navigation
+
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (!isModalOpen) return;

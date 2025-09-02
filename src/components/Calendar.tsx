@@ -1,5 +1,5 @@
 import React from 'react';
-import { getMonthData, getMonthName, type JournalEntry } from '../utils/dateHelpers';
+import { getMonthData, type JournalEntry } from '../utils/dateHelpers';
 import type { MonthInfo } from '../hooks/useInfiniteScroll';
 import DayCell from './DayCell';
 
@@ -14,7 +14,6 @@ const Calendar: React.FC<CalendarProps> = ({
   journalEntries,
   onEntryClick
 }) => {
-  const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   const renderMonth = (monthInfo: MonthInfo) => {
     const monthData = getMonthData(monthInfo.year, monthInfo.month);
@@ -25,10 +24,6 @@ const Calendar: React.FC<CalendarProps> = ({
         className="month-grid"
         data-month-id={monthInfo.id}
       >
-
-        
-
-        
         <div className="days-grid">
           {monthData.map((dayInfo, index) => (
             <DayCell

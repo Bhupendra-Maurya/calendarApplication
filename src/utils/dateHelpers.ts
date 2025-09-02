@@ -166,7 +166,7 @@ export const getAllJournalEntries = (): JournalEntry[] => [
 
 
 
-  // 
+  // Add some more data for testing
   {
     imgUrl: "https://images.pexels.com/photos/33693712/pexels-photo-33693712.jpeg",
     rating: 4.5,

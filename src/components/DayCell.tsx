@@ -45,7 +45,7 @@ const DayCell: React.FC<DayCellProps> = ({
       stars.push("☆");
     }
 
-    return stars.slice(0, 5); // Max 5 stars
+    return stars.slice(0, 5);
   };
 
   return (
@@ -74,5 +74,3 @@ const DayCell: React.FC<DayCellProps> = ({
 };
 
 export default DayCell;
-
-

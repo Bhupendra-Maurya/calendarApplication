@@ -20,7 +20,7 @@ const JournalModal: React.FC<JournalModalProps> = ({
   canGoToPrevious,
   canGoToNext
 }) => {
-  // Handle touch events for swiping
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -42,7 +42,7 @@ const JournalModal: React.FC<JournalModalProps> = ({
       const diffX = Math.abs(currentX - startX);
       const diffY = Math.abs(currentY - startY);
 
-      // Determine if this is a horizontal swipe
+
       if (diffX > diffY && diffX > 30) {
         if (!isScrolling) {
           e.preventDefault();
@@ -59,7 +59,7 @@ const JournalModal: React.FC<JournalModalProps> = ({
       const diffX = startX - endX;
       const diffY = Math.abs(startY - endY);
 
-      // Only trigger swipe if horizontal movement is greater than vertical
+
       if (Math.abs(diffX) > diffY && Math.abs(diffX) > 50) {
         if (diffX > 0 && canGoToNext) {
           onNext();
@@ -171,11 +171,3 @@ const JournalModal: React.FC<JournalModalProps> = ({
 };
 
 export default JournalModal;
-
-
-
-
-
-
-
-
