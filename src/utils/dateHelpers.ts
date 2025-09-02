@@ -158,5 +158,52 @@ export const getAllJournalEntries = (): JournalEntry[] => [
     categories: ["Color Care", "Purple Shampoo", "Toning"],
     date: "30/09/2025",
     description: "Used purple shampoo to tone highlights. Color looks refreshed and brassy tones are gone. Need to remember not to leave it on too long next time."
+  },
+
+
+
+  // 
+  {
+    imgUrl: "https://images.pexels.com/photos/33693712/pexels-photo-33693712.jpeg",
+    rating: 4.5,
+    categories: ["Hydration", "Mask", "Moisture"],
+    date: "07/09/2025",
+    description: "Applied a deep hydration mask. Hair feels softer and less frizzy."
+  },
+  {
+    imgUrl: "https://images.pexels.com/photos/33694713/pexels-photo-33694713.jpeg",
+    rating: 4.2,
+    categories: ["Styling", "Heat Protection"],
+    date: "08/09/2025",
+    description: "Straightened hair with heat protectant. Smooth finish, but ends felt a little dry."
+  },
+  {
+    imgUrl: "https://images.pexels.com/photos/33695714/pexels-photo-33695714.jpeg",
+    rating: 3.9,
+    categories: ["Color Care", "Gloss Treatment"],
+    date: "09/09/2025",
+    description: "Tried a gloss treatment. Shine improved, but color difference was subtle."
+  },
+  {
+    imgUrl: "https://images.pexels.com/photos/33696715/pexels-photo-33696715.jpeg",
+    rating: 4.7,
+    categories: ["Repair", "Serum"],
+    date: "11/09/2025",
+    description: "Applied repair serum. Split ends look less noticeable, overall healthier look."
+  },
+
+   {
+    imgUrl: "https://images.pexels.com/photos/33697716/pexels-photo-33697716.jpeg",
+    rating: 4.4,
+    categories: ["Purple Shampoo", "Toning"],
+    date: "12/09/2025",
+    description: "Used purple shampoo again. Blonde highlights look fresh, brassiness controlled well."
+  },
+  {
+    imgUrl: "https://images.pexels.com/photos/33698717/pexels-photo-33698717.jpeg",
+    rating: 4.1,
+    categories: ["Scalp Care", "Exfoliation"],
+    date: "13/09/2025",
+    description: "Did a scalp exfoliation treatment. Roots feel cleaner and lighter, less product buildup."
   }
 ];

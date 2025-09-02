@@ -1,5 +1,5 @@
-import React from 'react';
-import { getMonthName } from '../utils/dateHelpers';
+import React from "react";
+import { getMonthName } from "../utils/dateHelpers";
 
 interface HeaderProps {
   currentMonth: {
@@ -20,8 +20,16 @@ const Header: React.FC<HeaderProps> = ({ currentMonth }) => {
 
   return (
     <header className="header">
+      <div className="header-left">
+        <button className="back-button">←</button>
+        <span className="header-title">my hair diary</span>
+      </div>
       <h1>
-        {getMonthName(currentMonth.month)} {currentMonth.year}
+        {currentMonth
+          ? `${getMonthName(currentMonth.month).substring(0, 3)} ${
+              currentMonth.year
+            }`
+          : "Calendar"}
       </h1>
     </header>
   );

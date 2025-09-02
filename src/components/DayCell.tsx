@@ -52,29 +52,21 @@ const DayCell: React.FC<DayCellProps> = ({
     <div className={cellClassName}>
       <div className="day-number">{day}</div>
       {dayEntries.map((entry, index) => (
-        <div
-          key={index}
-          className="journal-entry"
-          onClick={() => onEntryClick(entry)}
-          title={entry.description.substring(0, 100) + "..."}
-          // style={{
-          //   backgroundImage: `url(${entry.imgUrl})`,
-          //   backgroundSize: "cover",
-          //   backgroundPosition: "center",
-          //   backgroundRepeat: "no-repeat",
-          // }}
-        >
-          <div>{entry.categories[0] || "Journal"}</div>
-          <div className="journal-entry-rating">
+        <div key={index} className="journal-entry" onClick={() => onEntryClick(entry)}>
+          <div className="stars">
             {renderStars(entry.rating).map((star, i) => (
               <span key={i} className="star">
                 {star}
               </span>
             ))}
-            <span style={{ fontSize: "0.6875rem", marginLeft: "0.25rem" }}>
-              {entry.rating}
-            </span>
           </div>
+          {entry.imgUrl && (
+            <img 
+              src={entry.imgUrl} 
+              alt="Journal entry" 
+              className="entry-image"
+            />
+          )}
         </div>
       ))}
     </div>
@@ -82,3 +74,5 @@ const DayCell: React.FC<DayCellProps> = ({
 };
 
 export default DayCell;
+
+
