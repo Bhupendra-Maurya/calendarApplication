@@ -1,67 +1,48 @@
 # Calendar Application
 
-A modern, infinite-scrolling calendar application built with React and TypeScript, featuring journal entries and smooth navigation.
+Infinite-scrolling calendar with journal entries, search, and keyboard navigation.
 
-## Features
+## How to Run Locally
 
-- **Infinite Scrolling Calendar** - Seamlessly browse through months with automatic loading
-- **Journal Entries** - View and interact with journal entries directly on calendar dates
-- **Today Highlighting** - Current date highlighted in green (only in current month)
-- **Modal Navigation** - Full-screen journal entry viewer with swipe/keyboard navigation
-- **Touch Gestures** - Swipe left/right to navigate between journal entries on mobile
-- **Responsive Design** - Optimized for both desktop and mobile devices
-- **Smooth Scrolling** - Auto-scroll to current month on app load
-
-## Tech Stack
-
-- **React 18** - Modern React with hooks
-- **TypeScript** - Type-safe development
-- **Vite** - Fast build tool and dev server
-- **CSS3** - Custom styling with responsive design
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository
+1. **Clone and install**
 ```bash
 git clone https://github.com/Bhupendra-Maurya/calendarApplication
 cd calendarApplication
-```
-
-2. Install dependencies
-```bash
 npm install
 ```
 
-3. Start the development server
+2. **Start development server**
 ```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+3. **Open browser** - Navigate to `http://localhost:5173`
 
-## Usage
+## Assumptions/Design Choices
 
-### Navigation
-- **Scroll** - Use mouse wheel or touch to scroll through months
-- **Auto-scroll** - App automatically displays current month on load
-- **Infinite Loading** - More months load automatically as you scroll
+### Calendar Layout
+- **Week starts on Sunday** - Standard US calendar format
+- **Infinite scroll** - Loads 6 months before/after current view for performance
+- **Dynamic header** - Shows month with most visible area in viewport
+- **Today highlighting** - Blue circle on current date (only in current month)
 
 ### Journal Entries
-- **Click** any journal entry to open detailed view
-- **Navigate** between entries using arrow buttons or keyboard
-- **Swipe** left/right on mobile to navigate entries
-- **Close** modal by clicking outside or pressing Escape
+- **Date format** - DD/MM/YYYY in JSON data, parsed correctly
+- **Multiple entries per day** - Grid layout when >1 entry on same date
+- **Image fallback** - SVG placeholder for broken/missing images
+- **Navigation scope** - Modal navigation works within filtered search results
 
-### Keyboard Shortcuts
-- `←` / `→` - Navigate between journal entries in modal
-- `Escape` - Close journal modal
+### Search Functionality
+- **Real-time filtering** - Updates as you type
+- **Case-insensitive** - Searches descriptions and categories
+- **Partial matching** - Finds entries containing search term
 
+### Keyboard Navigation
+- **Arrow Up/Down** - Navigate between months
+- **Arrow Left/Right** - Navigate journal entries in modal
+- **Escape** - Close modal
 
-
+### Performance
+- **Throttled scroll** - 16ms throttle for smooth performance
+- **Lazy loading** - Months added/removed based on scroll position
+- **Touch optimized** - Swipe gestures for mobile navigation
