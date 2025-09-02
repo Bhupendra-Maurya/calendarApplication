@@ -180,6 +180,28 @@ export const useInfiniteScroll = () => {
     };
   }, [handleScroll]);
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (!containerRef.current || !currentMonth) return;
+      
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const direction = e.key === 'ArrowUp' ? -1 : 1;
+        const targetMonth = new Date(currentMonth.year, currentMonth.month + direction, 1);
+        const targetId = `${targetMonth.getFullYear()}-${targetMonth.getMonth()}`;
+        const targetElement = containerRef.current.querySelector(`[data-month-id="${targetId}"]`);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [currentMonth]);
+
   return {
     containerRef,
     months,

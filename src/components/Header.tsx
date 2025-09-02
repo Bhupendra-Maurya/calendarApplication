@@ -7,9 +7,11 @@ interface HeaderProps {
     month: number;
     id: string;
   } | null;
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ currentMonth }) => {
+const Header: React.FC<HeaderProps> = ({ currentMonth, searchQuery, onSearchChange }) => {
   if (!currentMonth) {
     return (
       <header className="header">
@@ -24,6 +26,13 @@ const Header: React.FC<HeaderProps> = ({ currentMonth }) => {
         <button className="back-button">←</button>
         <span className="header-title">my hair diary</span>
       </div>
+      <input
+        type="text"
+        placeholder="Search..."
+        value={searchQuery}
+        onChange={(e) => onSearchChange(e.target.value)}
+        className="header-search"
+      />
       <h1>
         {currentMonth
           ? `${getMonthName(currentMonth.month).substring(0, 3)} ${

@@ -9,6 +9,9 @@ const App: React.FC = () => {
   const { containerRef, months, currentMonth, showMonthIndicator } = useInfiniteScroll();
   const {
     journalEntries,
+    allEntries,
+    searchQuery,
+    setSearchQuery,
     selectedEntry,
     isModalOpen,
     openJournalEntry,
@@ -21,7 +24,11 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <Header currentMonth={currentMonth} />
+      <Header 
+        currentMonth={currentMonth} 
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+      />
       
       <div className="fixed-days-header">
         <div className="day-header">Sun</div>
@@ -52,7 +59,7 @@ const App: React.FC = () => {
       <div ref={containerRef} className="calendar-container">
         <Calendar
           months={months}
-          journalEntries={journalEntries}
+          journalEntries={searchQuery ? journalEntries : allEntries}
           onEntryClick={openJournalEntry}
         />
       </div>

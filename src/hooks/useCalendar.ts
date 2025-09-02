@@ -3,6 +3,8 @@ import { type JournalEntry, getAllJournalEntries, parseDate } from '../utils/dat
 
 export const useCalendar = () => {
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
+  const [filteredEntries, setFilteredEntries] = useState<JournalEntry[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedEntry, setSelectedEntry] = useState<JournalEntry | null>(null);
   const [currentEntryIndex, setCurrentEntryIndex] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,17 +19,31 @@ export const useCalendar = () => {
       return dateA.getTime() - dateB.getTime();
     });
     setJournalEntries(entries);
+    setFilteredEntries(entries);
   }, []);
+
+  // Filter entries based on search
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredEntries(journalEntries);
+    } else {
+      const filtered = journalEntries.filter(entry => 
+        entry.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        entry.categories.some(cat => cat.toLowerCase().includes(searchQuery.toLowerCase()))
+      );
+      setFilteredEntries(filtered);
+    }
+  }, [searchQuery, journalEntries]);
 
 
   const openJournalEntry = useCallback((entry: JournalEntry) => {
-    const index = journalEntries.findIndex(e => 
+    const index = filteredEntries.findIndex(e => 
       e.date === entry.date && e.description === entry.description
     );
     setSelectedEntry(entry);
     setCurrentEntryIndex(index);
     setIsModalOpen(true);
-  }, [journalEntries]);
+  }, [filteredEntries]);
 
 
   const closeJournalEntry = useCallback(() => {
@@ -40,18 +56,18 @@ export const useCalendar = () => {
     if (currentEntryIndex > 0) {
       const newIndex = currentEntryIndex - 1;
       setCurrentEntryIndex(newIndex);
-      setSelectedEntry(journalEntries[newIndex]);
+      setSelectedEntry(filteredEntries[newIndex]);
     }
-  }, [currentEntryIndex, journalEntries]);
+  }, [currentEntryIndex, filteredEntries]);
 
 
   const goToNextEntry = useCallback(() => {
-    if (currentEntryIndex < journalEntries.length - 1) {
+    if (currentEntryIndex < filteredEntries.length - 1) {
       const newIndex = currentEntryIndex + 1;
       setCurrentEntryIndex(newIndex);
-      setSelectedEntry(journalEntries[newIndex]);
+      setSelectedEntry(filteredEntries[newIndex]);
     }
-  }, [currentEntryIndex, journalEntries]);
+  }, [currentEntryIndex, filteredEntries]);
 
 
   useEffect(() => {
@@ -79,7 +95,10 @@ export const useCalendar = () => {
   }, [isModalOpen, goToPreviousEntry, goToNextEntry, closeJournalEntry]);
 
   return {
-    journalEntries,
+    journalEntries: filteredEntries,
+    allEntries: journalEntries,
+    searchQuery,
+    setSearchQuery,
     selectedEntry,
     currentEntryIndex,
     isModalOpen,
@@ -88,6 +107,6 @@ export const useCalendar = () => {
     goToPreviousEntry,
     goToNextEntry,
     canGoToPrevious: currentEntryIndex > 0,
-    canGoToNext: currentEntryIndex < journalEntries.length - 1
+    canGoToNext: currentEntryIndex < filteredEntries.length - 1
   };
 };
