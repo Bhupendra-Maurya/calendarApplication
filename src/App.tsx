@@ -23,6 +23,16 @@ const App: React.FC = () => {
     <div className="app">
       <Header currentMonth={currentMonth} />
       
+      <div className="fixed-days-header">
+        <div className="day-header">Sun</div>
+        <div className="day-header">Mon</div>
+        <div className="day-header">Tue</div>
+        <div className="day-header">Wed</div>
+        <div className="day-header">Thu</div>
+        <div className="day-header">Fri</div>
+        <div className="day-header">Sat</div>
+      </div>
+      
       {showMonthIndicator && currentMonth && (
         <div className="floating-month-indicator">
           {currentMonth.month === 0 ? 'January' : 

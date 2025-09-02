@@ -27,13 +27,7 @@ const Calendar: React.FC<CalendarProps> = ({
       >
 
         
-        <div className="days-header">
-          {dayHeaders.map(day => (
-            <div key={day} className="day-header">
-              {day}
-            </div>
-          ))}
-        </div>
+
         
         <div className="days-grid">
           {monthData.map((dayInfo, index) => (
