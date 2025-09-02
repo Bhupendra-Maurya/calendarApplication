@@ -18,7 +18,7 @@ npm run dev
 
 3. **Open browser** - Navigate to `http://localhost:5173`
 
-## Assumptions/Design Choices
+## Design 
 
 ### Calendar Layout
 - **Week starts on Sunday** - Standard US calendar format
