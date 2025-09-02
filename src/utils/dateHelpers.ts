@@ -40,7 +40,7 @@ export const getFirstDayOfMonth = (year: number, month: number): number => {
   return new Date(year, month, 1).getDay();
 };
 
-export const getMonthData = (year: number, month: number) => {
+export const getContinuousMonthData = (year: number, month: number) => {
   const daysInMonth = getDaysInMonth(year, month);
   const firstDayOfWeek = getFirstDayOfMonth(year, month);
   const daysInPrevMonth = getDaysInMonth(year, month - 1);
@@ -80,6 +80,23 @@ export const getMonthData = (year: number, month: number) => {
         isPrevMonth: false
       });
     }
+  }
+  
+  return days;
+};
+
+export const getMonthData = (year: number, month: number) => {
+  const daysInMonth = getDaysInMonth(year, month);
+  const days = [];
+  
+  // Generate continuous days for current month only
+  for (let day = 1; day <= daysInMonth; day++) {
+    days.push({
+      day,
+      isCurrentMonth: true,
+      date: new Date(year, month, day),
+      isPrevMonth: false
+    });
   }
   
   return days;
