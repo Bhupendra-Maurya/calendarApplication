@@ -1,4 +1,6 @@
-# Calendar Application
+# Calendar Application 
+## [Live Demo](http://localhost:5173/calendarApplication/)
+
 
 Infinite-scrolling calendar with journal entries, search, and keyboard navigation.
 
