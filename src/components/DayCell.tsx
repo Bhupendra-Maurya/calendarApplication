@@ -51,7 +51,7 @@ const DayCell: React.FC<DayCellProps> = ({
   return (
     <div className={cellClassName}>
       <div className="day-number">{day}</div>
-      {dayEntries.map((entry, index) => (
+      {isCurrentMonth && dayEntries.map((entry, index) => (
         <div key={index} className="journal-entry" onClick={() => onEntryClick(entry)}>
           <div className="stars">
             {renderStars(entry.rating).map((star, i) => (
