@@ -10,9 +10,11 @@ export const useInfiniteScroll = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [months, setMonths] = useState<MonthInfo[]>([]);
   const [currentMonth, setCurrentMonth] = useState<MonthInfo | null>(null);
+  const [showMonthIndicator, setShowMonthIndicator] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const scrollPositionRef = useRef<number>(0);
   const lastScrollTime = useRef<number>(0);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
 
   // Initialize with current month and surrounding months
   useEffect(() => {
@@ -125,6 +127,18 @@ export const useInfiniteScroll = () => {
     if (mostVisibleMonth) {
       setCurrentMonth(prev => {
         if (!prev || prev.id !== mostVisibleMonth?.id) {
+          setShowMonthIndicator(true);
+          
+          // Clear existing timeout
+          if (scrollTimeoutRef.current) {
+            clearTimeout(scrollTimeoutRef.current);
+          }
+          
+          // Hide indicator after 2 seconds
+          scrollTimeoutRef.current = setTimeout(() => {
+            setShowMonthIndicator(false);
+          }, 2000);
+          
           return mostVisibleMonth;
         }
         return prev;
@@ -170,6 +184,7 @@ export const useInfiniteScroll = () => {
     containerRef,
     months,
     currentMonth,
+    showMonthIndicator,
     isLoading
   };
 };

@@ -25,9 +25,7 @@ const Calendar: React.FC<CalendarProps> = ({
         className="month-grid"
         data-month-id={monthInfo.id}
       >
-        <h2 className="month-title">
-          {getMonthName(monthInfo.month)} {monthInfo.year}
-        </h2>
+
         
         <div className="days-header">
           {dayHeaders.map(day => (

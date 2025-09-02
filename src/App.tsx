@@ -6,7 +6,7 @@ import { useInfiniteScroll } from './hooks/useInfiniteScroll';
 import { useCalendar } from './hooks/useCalendar';
 
 const App: React.FC = () => {
-  const { containerRef, months, currentMonth } = useInfiniteScroll();
+  const { containerRef, months, currentMonth, showMonthIndicator } = useInfiniteScroll();
   const {
     journalEntries,
     selectedEntry,
@@ -22,6 +22,22 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <Header currentMonth={currentMonth} />
+      
+      {showMonthIndicator && currentMonth && (
+        <div className="floating-month-indicator">
+          {currentMonth.month === 0 ? 'January' : 
+           currentMonth.month === 1 ? 'February' :
+           currentMonth.month === 2 ? 'March' :
+           currentMonth.month === 3 ? 'April' :
+           currentMonth.month === 4 ? 'May' :
+           currentMonth.month === 5 ? 'June' :
+           currentMonth.month === 6 ? 'July' :
+           currentMonth.month === 7 ? 'August' :
+           currentMonth.month === 8 ? 'September' :
+           currentMonth.month === 9 ? 'October' :
+           currentMonth.month === 10 ? 'November' : 'December'} {currentMonth.year}
+        </div>
+      )}
       
       <div ref={containerRef} className="calendar-container">
         <Calendar
