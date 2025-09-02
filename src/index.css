@@ -126,7 +126,7 @@ body {
 /* Month Grid */
 .month-grid {
   padding: 0;
-  margin-bottom: 0;
+  margin-bottom: 0.5rem;
   width: 100%;
   box-sizing: border-box;
 }
@@ -178,15 +178,11 @@ body {
 }
 
 .days-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   gap: 0;
   background: #ffffff;
   width: 100%;
-}
-
-.days-grid .day-cell {
-  flex: 0 0 calc(100% / 7);
 }
 
 /* Day Cell */
@@ -656,5 +652,3 @@ body {
   padding: 2rem;
   color: #666;
 }
-
-
