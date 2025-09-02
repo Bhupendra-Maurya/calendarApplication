@@ -1,4 +1,3 @@
-// src/components/JournalModal.tsx
 import React, { useEffect } from 'react';
 import { type JournalEntry, parseDate } from '../utils/dateHelpers';
 
@@ -172,3 +171,11 @@ const JournalModal: React.FC<JournalModalProps> = ({
 };
 
 export default JournalModal;
+
+
+
+
+
+
+
+

@@ -286,7 +286,7 @@ body {
 
 @keyframes modalOpen {
   to {
-    transform: scale(1);
+    transform: scale(0.9);
   }
 }
 
@@ -469,7 +469,7 @@ body {
     width: 36px;
     height: 36px;
     font-size: 1rem;
-    display: none;
+    /* display: none; */
   }
 
   .modal-nav.prev {
