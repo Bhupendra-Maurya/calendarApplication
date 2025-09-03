@@ -506,10 +506,16 @@ body {
 
 /* Loading states */
 .loading {
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
-  color: #666;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  z-index: 999;
+  font-size: 1rem;
 }
 
 .continuous-days {
