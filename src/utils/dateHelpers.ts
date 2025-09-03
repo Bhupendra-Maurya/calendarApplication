@@ -42,6 +42,23 @@ export const getFirstDayOfMonth = (year: number, month: number): number => {
 
 export const getMonthData = (year: number, month: number) => {
   const daysInMonth = getDaysInMonth(year, month);
+  const days = [];
+  
+  // Current month days only
+  for (let day = 1; day <= daysInMonth; day++) {
+    days.push({
+      day,
+      isCurrentMonth: true,
+      date: new Date(year, month, day),
+      isPrevMonth: false
+    });
+  }
+  
+  return days;
+};
+
+export const getContinuousMonthData = (year: number, month: number) => {
+  const daysInMonth = getDaysInMonth(year, month);
   const firstDayOfWeek = getFirstDayOfMonth(year, month);
   const daysInPrevMonth = getDaysInMonth(year, month - 1);
   
