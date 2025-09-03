@@ -68,7 +68,7 @@ export const useInfiniteScroll = () => {
     (direction: 'before' | 'after', count: number = 6) => {
       if (loadingRef.current) return;
       loadingRef.current = true;
-      setIsLoading(true);
+      setIsLoading(false);
 
       setMonths((prevMonths) => {
         if (prevMonths.length === 0) return prevMonths;
