@@ -6,7 +6,7 @@ import { useInfiniteScroll } from './hooks/useInfiniteScroll';
 import { useCalendar } from './hooks/useCalendar';
 
 const App: React.FC = () => {
-  const { containerRef, months, currentMonth, showMonthIndicator } = useInfiniteScroll();
+  const { containerRef, months, currentMonth, showMonthIndicator, isLoading } = useInfiniteScroll();
   const {
     journalEntries,
     allEntries,
@@ -57,6 +57,9 @@ const App: React.FC = () => {
       )}
       
       <div ref={containerRef} className="calendar-container">
+        {isLoading && (
+          <div className="loading">Loading...</div>
+        )}
         <Calendar
           months={months}
           journalEntries={searchQuery ? journalEntries : allEntries}

@@ -15,6 +15,7 @@ export const useInfiniteScroll = () => {
   const [months, setMonths] = useState<MonthInfo[]>([]);
   const [currentMonth, setCurrentMonth] = useState<MonthInfo | null>(null);
   const [showMonthIndicator, setShowMonthIndicator] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const scrollTimeoutRef = useRef<number | null>(null);
   const loadingRef = useRef(false);
@@ -42,6 +43,7 @@ export const useInfiniteScroll = () => {
 
     setMonths(initialMonths);
     setCurrentMonth(createMonthInfo(currentYear, currentMonthIndex));
+    setIsLoading(false);
 
     // Scroll to current month after DOM paint
     requestAnimationFrame(() => {
@@ -66,6 +68,7 @@ export const useInfiniteScroll = () => {
     (direction: 'before' | 'after', count: number = 6) => {
       if (loadingRef.current) return;
       loadingRef.current = true;
+      setIsLoading(true);
 
       setMonths((prevMonths) => {
         if (prevMonths.length === 0) return prevMonths;
@@ -103,6 +106,7 @@ export const useInfiniteScroll = () => {
 
       setTimeout(() => {
         loadingRef.current = false;
+        setIsLoading(false);
       }, LOADING_DELAY_MS);
     },
     [currentMonth]
@@ -233,6 +237,7 @@ export const useInfiniteScroll = () => {
     months,
     currentMonth,
     showMonthIndicator,
+    isLoading,
   };
 };
 
