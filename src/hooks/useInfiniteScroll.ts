@@ -164,7 +164,8 @@ export const useInfiniteScroll = () => {
       },
       {
         root: containerRef.current,
-        threshold: [0.25, 0.5, 0.75],
+        threshold: [0.1, 0.3, 0.5, 0.7, 0.9],
+        rootMargin: '-20% 0px -20% 0px'
       }
     );
 
