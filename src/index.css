@@ -370,7 +370,7 @@ body {
 .journal-rating {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .journal-rating .star {
@@ -389,7 +389,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .category-tag {
@@ -403,7 +403,7 @@ body {
 
 .journal-description {
   color: #333;
-  line-height: 1.6;
+  line-height: 1.4;
   font-size: 0.9375rem;
 }
 
