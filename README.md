@@ -1,8 +1,7 @@
 # Calendar Application 
-## [Live Demo](http://localhost:5173/calendarApplication/)
+## [Live Demo](https://calendar-application-two.vercel.app/)
 
-
-Infinite-scrolling calendar with journal entries, search, and keyboard navigation.
+Infinite-scrolling calendar with journal entries, search, and keyboard navigation. Built with React and TypeScript.
 
 ## How to Run Locally
 
@@ -20,31 +19,64 @@ npm run dev
 
 3. **Open browser** - Navigate to `http://localhost:5173`
 
-## Design 
+
+### 1. Infinite Scroll
+- ✅ Scrolls infinitely into past and future months
+- ✅ Seamless loading without jumps or flickers
+- ✅ Pre-loads  months with background expansion
+
+### 2. Continuous Scrolling
+- ✅ Smooth, fluid scrolling on desktop and mobile
+- ✅ Days flow continuously across month boundaries
+- ✅ Multiple months can be partially visible
+- ✅ Social media-like scrolling experience
+
+### 3. Month & Year Display
+- ✅ Header shows current visible month and year
+- ✅ Updates dynamically based on scroll position
+- ✅ Shows month with most visible area in viewport
+
+### 4. Day Grid Layout
+- ✅ Proper 7-column calendar grid (Monday-Sunday)
+- ✅ Real 2025 calendar with correct date alignment
+- ✅ Clean, consistent day cell sizing
+
+### 5. Journal Entry Integration
+- ✅ Complete JSON dataset integration
+- ✅ All entry data: Image URL, Rating, Categories, Date, Description
+- ✅ Swipable modal navigation between entries
+
+### 6. Responsiveness & Mobile Optimization
+- ✅ Works perfectly on desktop, laptop, and mobile
+- ✅ Adaptive layouts for different screen sizes
+- ✅ Touch-optimized interactions
+
+### 7. Performance & Memory Management
+- ✅ Smooth scrolling even after extensive navigation
+- ✅ Efficient memory management with smart pre-loading
+- ✅ No lag or performance degradation
+
+##  Features
+- ✅ **TypeScript** - Full type safety
+- ✅ **Keyboard Navigation** - Arrow keys for months/entries
+- ✅ **Event Search/Filtering** - Real-time search functionality
+- ✅ **Animated Month Header** - Smooth transitions when month changes
+
 
 ### Calendar Layout
-- **Week starts on Sunday** - Standard US calendar format
-- **Infinite scroll** - Loads 6 months before/after current view for performance
-- **Dynamic header** - Shows month with most visible area in viewport
-- **Today highlighting** - Blue circle on current date (only in current month)
-
-### Journal Entries
-- **Date format** - DD/MM/YYYY in JSON data, parsed correctly
-- **Multiple entries per day** - Grid layout when >1 entry on same date
-- **Image fallback** - SVG placeholder for broken/missing images
-- **Navigation scope** - Modal navigation works within filtered search results
+- **Week format** - Sunday to Saturday
+- **Continuous flow** - Days seamlessly flow across month boundaries
+- **Current month highlighting** - Always highlights actual current month
+- **Today highlighting** - Blue circle and border on current date
 
 ### Search Functionality
 - **Real-time filtering** - Updates as you type
 - **Case-insensitive** - Searches descriptions and categories
 - **Partial matching** - Finds entries containing search term
+- **Modal navigation** - Navigate within filtered results
 
-### Keyboard Navigation
-- **Arrow Up/Down** - Navigate between months
-- **Arrow Left/Right** - Navigate journal entries in modal
-- **Escape** - Close modal
 
-### Performance
-- **Throttled scroll** - 16ms throttle for smooth performance
-- **Lazy loading** - Months added/removed based on scroll position
-- **Touch optimized** - Swipe gestures for mobile navigation
+### Mobile Experience
+- **Touch gestures** - Swipe support for modal navigation
+- **Responsive design** - Consistent experience across devices
+- **Optimized sizing** - Perfect day cell dimensions for mobile

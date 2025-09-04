@@ -14,6 +14,8 @@ dist-ssr
 
 design.css
 design2.css
+new.css
+original.css
 
 # Editor directories and files
 .vscode/*

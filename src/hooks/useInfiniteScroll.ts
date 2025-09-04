@@ -22,7 +22,7 @@ export const useInfiniteScroll = () => {
   const intersectionObserverRef = useRef<IntersectionObserver | null>(null);
   const monthElementsRef = useRef<Map<string, Element>>(new Map());
 
-  //Utility: Generate month info
+  // Generate month info
   const createMonthInfo = (year: number, month: number): MonthInfo => ({
     year,
     month,
@@ -112,7 +112,7 @@ export const useInfiniteScroll = () => {
     [currentMonth]
   );
 
-  //Scroll handler (throttled with rAF)
+  //Scroll handler 
   const handleScroll = useCallback(() => {
     if (!containerRef.current) return;
 
@@ -135,7 +135,7 @@ export const useInfiniteScroll = () => {
     });
   }, [addMonths]);
 
-  // Intersection Observer for current month (init once)
+  // Intersection Observer for current month
   useEffect(() => {
     if (!containerRef.current) return;
 

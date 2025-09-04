@@ -182,7 +182,7 @@ body {
 /* Day Cell */
 .day-cell {
   background: white;
-  height: 300px;
+  height: 200px;
   width: 100%;
   padding: 0.5rem;
   position: relative;
@@ -529,6 +529,23 @@ body {
 
 /* DESKTOP DESIGN (1024px and up)*/
 @media (min-width: 1024px) {
+  .app {
+    width: 60vw;
+    margin: 0 auto;
+  }
+
+  .fixed-days-header {
+    width: 60vw;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .header {
+    width: 60vw;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   .journal-modal {
     padding: 2rem;
     backdrop-filter: blur(20px);
