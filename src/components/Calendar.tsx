@@ -110,9 +110,9 @@ const Calendar: React.FC<CalendarProps> = ({
       <div className="continuous-days-grid">
         {continuousDays.map((dayInfo, index) => {
           const dayEntries = getJournalEntriesForDate(journalEntries, dayInfo.date);
-          const isActualCurrentMonth = currentMonth ? 
-            dayInfo.monthInfo.year === currentMonth.year && 
-            dayInfo.monthInfo.month === currentMonth.month : false;
+          const today = new Date();
+          const isActualCurrentMonth = dayInfo.monthInfo.year === today.getFullYear() && 
+            dayInfo.monthInfo.month === today.getMonth();
           
           return (
             <div
